@@ -15,14 +15,15 @@ const port = 8080
 var redis = require("redis"), client = redis.createClient();
 
 //Import all dependecies
-require('./private/Register_Login/Register')
+require('./private/variableData')
+/*require('./private/Register_Login/Register')
 require('./private/Register_Login/Login')
-require('./private/datosVariables')
+
 require('./private/Chat/preChat')
 require('./private/Administr/administrLoads')
 require('./private/Administr/adminTools')
 require('./private/Register_Login/GestorPassUser')
-require('./private/DataBase/Redis')
+require('./private/DataBase/Redis')*/
 
 //Start view engine and session
 app.set('view engine', 'pug');
@@ -33,6 +34,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(helmet())
 app.set('views', __dirname + '/public/views')
+
+app.get('/', function(req, res){
+    if(req.session.datosView==undefined){
+		req.session.datosView = JSON.parse(JSON.stringify(datosSesion))
+    }
+    req.session.datosView.tituloPagina = "AdoptMe - Inicio"
+    res.render('index', req.session.datosView)
+})
 
 const server = app.listen(port, () =>{
     console.log("Adotpme iniciado en: " + port)

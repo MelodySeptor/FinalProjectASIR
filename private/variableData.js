@@ -1,1 +1,1 @@
-datosSesion={}
+datosSesion={tituloPagina:""}
